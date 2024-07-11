@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/files', [\App\Http\Controllers\Api\FileController::class, 'index']);
+    Route::post('/files', [\App\Http\Controllers\Api\FileController::class, 'store']);
+    Route::get('/files/{id}', [\App\Http\Controllers\Api\FileController::class, 'show']);
+    Route::put('/files/{id}', [\App\Http\Controllers\Api\FileController::class, 'update']);
+    Route::delete('/files/{id}', [\App\Http\Controllers\Api\FileController::class, 'destroy']);
+    Route::get('/files/{id}/download', [\App\Http\Controllers\Api\FileController::class, 'download']);
 });
+Route::post('/register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
+Route::post('/login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
+Route::post('/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout'])->middleware('auth:sanctum');
